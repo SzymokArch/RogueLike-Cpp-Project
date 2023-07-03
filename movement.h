@@ -1,20 +1,18 @@
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 #include "mapa.h"
-#include <raylib.h>
+#include <cstdint>
+#include <list>
+
+enum Direction {STOP, LEFT, RIGHT, UP, DOWN};
 
 class Movement{
     protected:
         unsigned short y;
         unsigned short x;
-        uint8_t speed = 3;
+        uint8_t speed = 4;
+        uint8_t radius = 5;
     public:
-        void operator+=(int x){
-            speed += x;
-        }
-        void operator-=(int x){
-            speed -= x;
-        }
         uint8_t get_speed(){
             return speed;
         }
@@ -33,9 +31,33 @@ class Movement{
 
 };
 
-class Player : public Movement{
+class Bullet : public Movement{
+    private:
+        Direction dir;
+    protected:
+        uint8_t speed = 8;
+        bool collision = false;
     public:
-        void update_movement(Level & lvl);
+        Bullet(int _y, int _x, Direction _dir);
+        void update(Level & lvl);
+        bool get_collision(){
+            return collision;
+        }
+};
+
+class BulletList{
+    protected:
+        std::list<Bullet> bullet_l;
+    public:
+        void create_bullet(int _y, int _x, Direction _dir);
+        void update(Level & lvl);
+};
+
+class Player : public Movement{
+    private:
+        BulletList bl;
+    public:
+        void update(Level & lvl);
         void new_level(Level & lvl);
 };
 

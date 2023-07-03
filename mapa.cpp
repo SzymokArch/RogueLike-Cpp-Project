@@ -1,6 +1,7 @@
 #include "mapa.h"
 #include <cstdint>
 #include <cstdlib>
+#include <raylib.h>
 
 int PTRSIZE = sizeof(void *);
 
@@ -125,7 +126,8 @@ Level::~Level(){
     free(arr);
 }
 
-void Level::generate_level(long seed){
+void Level::generate_level(long _seed){
+    seed = _seed;
     for (int i = 0; i < LVLSIZE; i ++){
         for (int j = 0; j < LVLSIZE; j ++){
             arr[i][j] = 0;
@@ -142,9 +144,35 @@ void Level::generate_level(long seed){
     else
         arr[LVLSIZE/2 + 1][0] = 0;
     if (arr[LVLSIZE/2][14] == 0)
+        arr[LVLSIZE/2][15] = 3;
+    else
+        arr[LVLSIZE/2 + 1][15] = 3;
+}
+
+void Level::open_level(){
+    if (arr[LVLSIZE/2][15] == 3)
         arr[LVLSIZE/2][15] = 2;
     else
         arr[LVLSIZE/2 + 1][15] = 2;
 }
 
+void Level::draw_level(){
+    ClearBackground(GRAY);
+    for (int i = 0; i < LVLSIZE; i ++){
+        for (int j = 0; j < LVLSIZE; j ++){
+            if (arr[i][j] == 1){
+                DrawRectangle(j * 64, i * 64, 62, 62, BLACK);
+            }
+            else if (arr[i][j] == 0){
+                DrawRectangle(j * 64, i * 64, 62, 62, WHITE);
+            }
+            else if (arr[i][j] == 3){
+                DrawRectangle(j * 64, i * 64, 62, 62, RED);
+            }
+            else if (arr[i][j] == 2){
+                DrawRectangle(j * 64, i * 64, 62, 62, GREEN);
+            }
+        }
+    }
+}
 
