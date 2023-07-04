@@ -1,8 +1,9 @@
 #ifndef MAPA_H
 #define MAPA_H
+
 #include <cstdint>
-#include <list>
-#define LVLSIZE 16
+
+const int LVLSIZE = 16;
 
 struct Room{
     int sy, sx, ey, ex;
@@ -19,7 +20,7 @@ class Level{
         void split_room(Room & current, int offset, Room & next, long seed);
         void split_level(int splits, long seed);
     public:
-        long get_seed(){
+        long get_seed() const{
             return seed;
         }
         Level();

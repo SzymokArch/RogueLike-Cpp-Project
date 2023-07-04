@@ -1,9 +1,8 @@
 #include "mapa.h"
-#include <cstdint>
 #include <cstdlib>
 #include <raylib.h>
 
-int PTRSIZE = sizeof(void *);
+const int PTRSIZE = sizeof(void *);
 
 long room_area(Room r){
     return (r.ey - r.sy) * (r.ex - r.sx);
