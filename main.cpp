@@ -35,7 +35,7 @@ int main(int argc, char * argv[]){
             lvl.generate_level(seed);
             p.new_level(lvl);
             ea.free_arr();
-            ea.generate_arr(lvl, p, round(trudnosc * M_E/2), seed);
+            ea.generate_arr(lvl, p, (int)ceil(trudnosc/M_E), seed);
         }
         p.update(lvl);
         ea.update(lvl, p);
