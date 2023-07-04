@@ -2,11 +2,12 @@
 #include <raylib.h>
 #include <cmath>
 #include "entity.h"
+#include <time.h>
 
 int main(int argc, char * argv[]){
     Level lvl;
     Player p;
-    long seed = 215;
+    long seed = time(NULL);
     lvl.generate_level(seed);
     p.new_level(lvl);
     InitWindow(1024, 1024, "test");
@@ -34,10 +35,13 @@ int main(int argc, char * argv[]){
             lvl.generate_level(seed);
             p.new_level(lvl);
             ea.free_arr();
-            ea.generate_arr(lvl, p, round(trudnosc * M_PI/2), seed);
+            ea.generate_arr(lvl, p, round(trudnosc * M_E/2), seed);
         }
         p.update(lvl);
         ea.update(lvl, p);
+        if (trudnosc == 0)
+            DrawText("Musisz pokonac wszystkich\naby przejsc dalej", 66, 66, 42, RED);
+        DrawText(TextFormat("Poziom: %i", trudnosc), 752, 66, 42, GREEN);
         EndDrawing();
     }
     

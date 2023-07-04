@@ -24,7 +24,7 @@ class Enemy : public Movement{
     public:
         bool life;
         void init_enemy(int _y, int _x, Direction _dir);
-        void update(Level &lvl, Player &p);
+        void update(Level &lvl, Player &p, long seed);
 };
 
 class EnemyArr

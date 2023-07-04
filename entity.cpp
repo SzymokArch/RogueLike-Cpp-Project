@@ -90,7 +90,7 @@ Vector2 operator+=(Vector2 &v1, Vector2 &v2)
 
 bool Enemy::see_player(Level &lvl, Player &p)
 {
-    double len = 0, a = x - p.get_x(), b = y - p.get_y(), dlg = sqrt(a * a + b * b);
+    double a = x - p.get_x(), b = y - p.get_y(), dlg = sqrt(a * a + b * b);
     if (dlg == 0)
         return true;
     Vector2 vec = {(float)x, (float)y}, add = {(float)(a / dlg), float(b / dlg)};
@@ -113,7 +113,7 @@ void Enemy::init_enemy(int _y, int _x, Direction _dir)
     dir = _dir;
 }
 
-void Enemy::update(Level &lvl, Player &p)
+void Enemy::update(Level &lvl, Player &p, long seed)
 {
     if (see_player(lvl, p))
     {
@@ -125,14 +125,14 @@ void Enemy::update(Level &lvl, Player &p)
             x -= round(v.x);
             y -= round(v.y);
             if (abs(p.get_x() - x) < 20 && abs(p.get_y() - y) < 20)
-                DrawText("Przegrales", 256, 512, 100, PINK);
-                // exit(0);
+                // DrawText("Przegrales", 256, 512, 100, PINK);
+                exit(0);
         }
     }
     else if (clock / 60)
     {
         clock = 0;
-        srand(time(0));
+        srand(time(0) * seed);
         int a = rand() % 5;
         dir = Direction(a);
     }
@@ -166,7 +166,7 @@ void EnemyArr::generate_arr(Level &lvl, Player &p, int quantity, long seed){
             srand(seed++);
             y = rand()%1024;
             x = rand()%1024;
-        } while (lvl[y/64][x/64]!=0);
+        } while (lvl[y/64][x/64] != 0);
         arr[i].init_enemy(y, x, (Direction)(rand()%5));
     }
 }
@@ -177,8 +177,16 @@ void EnemyArr::free_arr(){
 }
 
 void EnemyArr::update(Level &lvl, Player &p){
+    for (auto i = p.bl.bullet_l.begin(); i != p.bl.bullet_l.end(); i ++){
+        for (int j = 0; j < enemy_q; j ++){
+            if (abs((*i).get_x()-arr[j].get_x()) < 15 && abs((*i).get_y()-arr[j].get_y()) < 15){
+                arr[j].life = false;
+            }
+        }
+    }
     for (int i = 0; i < enemy_q; i ++){
-        arr[i].update(lvl, p);
+        if (arr[i].life)
+            arr[i].update(lvl, p, round(i*M_E+2));
     }
 }
 

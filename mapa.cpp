@@ -160,16 +160,16 @@ void Level::draw_level(){
     for (int i = 0; i < LVLSIZE; i ++){
         for (int j = 0; j < LVLSIZE; j ++){
             if (arr[i][j] == 1){
-                DrawRectangle(j * 64, i * 64, 62, 62, BLACK);
+                DrawRectangle(j * 64, i * 64, 64, 64, BLACK);
             }
             else if (arr[i][j] == 0){
                 DrawRectangle(j * 64, i * 64, 62, 62, WHITE);
             }
             else if (arr[i][j] == 3){
-                DrawRectangle(j * 64, i * 64, 62, 62, RED);
+                DrawRectangle(j * 64, i * 64, 64, 64, RED);
             }
             else if (arr[i][j] == 2){
-                DrawRectangle(j * 64, i * 64, 62, 62, GREEN);
+                DrawRectangle(j * 64, i * 64, 64, 64, GREEN);
             }
         }
     }
