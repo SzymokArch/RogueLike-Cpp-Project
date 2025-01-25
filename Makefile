@@ -1,7 +1,6 @@
 output: main.o mapa.o entity.o bullet.o
 	g++ main.o mapa.o entity.o bullet.o -lm -Wall -lraylib -lGL -lpthread -ldl -lrt -lX11 -o output
 	rm *.o
-	./output
 
 main.o: main.cpp
 	g++ -c main.cpp -lm -Wall
